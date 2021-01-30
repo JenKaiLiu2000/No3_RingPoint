@@ -1,23 +1,23 @@
 //Ring point setting
-let spacing = 15;
-let radius = 6;
-let grayScale = 200;
-let offset_Range = 15; 
+let spacing = 20;
+let radius = 5;
+let grayScale = 220;
+let offset_Range = 3; 
 //Ripple effect setting
 let speed = 0.5;
-let ring_spacing = 1.2;
+let ring_spacing = 0.8;
 let ring_contrast = 1; //0~1
 
 let Color;
 let RingPoints = [];
 let currentTime = 0;
 function setup() {
-  createCanvas(650, 550).parent("main-display");
+  createCanvas(550, 550).parent("main-display");
   pixelDensity(1);
   angleMode(DEGREES);
-  video = createCapture(VIDEO);
-  video.size(width,height);
-  video.hide();
+  // video = createCapture(VIDEO);
+  // video.size(width,height);
+  // video.hide();
   background(0);
   let index = 0;
   for(let i = 0 ; i <= width ; i+=spacing){
@@ -33,19 +33,19 @@ function setup() {
 }
 function draw() {
   background(0);
-  video.loadPixels();
+  // video.loadPixels();
   loadPixels();
   let ring_index = 0;
   for(let i = 0 ; i <= width; i+=spacing){
     for(let j = 0 ; j <= height ; j+=spacing){
-      // let index = (i + j * width)*4;
-      let index = (width-i+1 + (j * width))*4;
-      // let pos = createVector(i,j).sub([width/2,height/2]);
-      // let len = pos.mag();
-      // len -= currentTime*speed*100;
-      // let grayVal = (sin(len*(ring_spacing))+1)/2;
+      let index = (i + j * width)*4;
+      // let index = (width-i+1 + (j * width))*4;
+      let pos = createVector(i,j).sub([width/2,height/2]);
+      let len = pos.mag();
+      len -= currentTime*speed*100;
+      let grayVal = (sin(len*(ring_spacing))+1)/2;
 
-      let grayVal =video.pixels[index]/255;
+      // let grayVal =video.pixels[index]/255;
 
       grayVal = min(grayVal,1)*ring_contrast;
       
@@ -65,8 +65,8 @@ function draw() {
   
   for(let i = 0 ; i < RingPoints.length ; i++){
     RingPoints[i].update();
-    RingPoints[i].farToDissolveInAlpha();
-    RingPoints[i].farToDissolveInScale();
+    // RingPoints[i].farToDissolveInAlpha();
+    // RingPoints[i].farToDissolveInScale();
     RingPoints[i].show();
   }
   timing();
